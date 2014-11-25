@@ -1,0 +1,17 @@
+svg {
+  margin: auto;
+  width: 1000px;
+  display: block;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
