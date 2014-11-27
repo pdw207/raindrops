@@ -11,6 +11,7 @@ var width = 1000,
   r = 5;
 
 // Slider
+
 $(function(){
     var currentValue = $('#currentValue');
 
@@ -27,9 +28,6 @@ $(function(){
 });
 
 function update_chart() {
-
-  //clear data
-
 
   // Containers:
 
