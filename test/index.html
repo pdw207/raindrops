@@ -34,17 +34,68 @@
   <script type="text/javascript" src="../vendor/underscore.js"></script>
 
   <script src="//localhost:35729/livereload.js"></script>
+  <script type="text/javascript" src="../app/helpers.js"></script>
   <script type="text/javascript" src="../app/app.js"></script>
 
 
   <!-- TESTS -->
   <script type="text/javascript">
 // test 1
-test("There are no tests! ",
-  function() {
-    ok(true);
+test("create_dataset creates random generated data based on number of rounds or units", function() {
+  var rounds = 500,
+    max = 20,
+    min = 0,
+    dataset = create_dataset(rounds);
+
+  ok(rounds == dataset.length, 'create_dataset builds array of size rounds');
+  ok(_.max(dataset) < max, 'each entry is less than 20')
+  ok(_.min(dataset) > min, 'each entry is more than 0')
+});
+
+test("Correctly calculated height based on quantity", function() {
+  var valueHeight,
+    value1 = 1,
+    value2 = 6,
+    baseHeight = 460;
+
+  ok(calculate_height(value1) == baseHeight, 'first height calculation is equal to base height');
+  ok(calculate_height(value2) == baseHeight, 'first height calculation for different value is equal to base height');
+  ok(calculate_height(value1) == baseHeight - 10, 'second height calculation is 10px less than base height' );
+});
+
+test('random numbers generated form roughly a bell curve', function() {
+  var range = 100,
+    centerTestValue = 55,
+    outlierTestvalue = 30,
+    frequencyCenterTest,
+    frequencyOutlierTest,
+    generatedNumber,
+    sum = 0,
+    lowBound,
+    highBound,
+    meanVariance = 1,
+    array = [];
+
+  //Generate a thousand random numbers
+  for(var i=0; i<1000; i++){
+    generatedNumber = random_number_bell_curve(range);
+    sum += generatedNumber;
+    if (generatedNumber == centerTestValue){
+      frequencyCenterTest = generatedNumber;
+    } else if (generatedNumber == outlierTestvalue){
+      frequencyOutlierTest = outlierTestvalue;
+    };
+    array.push(generatedNumber);
   }
-);
+  //Calculate mean and acceptable high and low bounds
+  average = sum / array.length;
+  lowBound = range / 2 - meanVariance
+  highBound = range / 2 + meanVariance
+
+  ok(average > lowBound, 'out of 1000 random numbers the average is greater than low bound')
+  ok(average < highBound, 'out of 1000 random numbers the average is less than high bound')
+  ok(frequencyOutlierTest < frequencyCenterTest, 'values that are farther from mean occur less frequently')
+});
 
 </script>
 </body>
